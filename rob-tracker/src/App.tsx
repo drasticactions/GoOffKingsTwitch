@@ -13,14 +13,15 @@ class EmoteCount {
   @observable count: number;
 }
 
-const Circle = posed.div({
-  attention: {
-    scale: 1.3,
+const Rob = posed.div({
+  GoOff: {
+    scale: ({i}) => i,
     transition: {
       type: 'spring',
       stiffness: 200,
       damping: 0
-    }
+    },
+    props: { i: 1 }
   }
 })
 
@@ -30,13 +31,13 @@ class App extends Component<any, any> {
   tokens: Tokens = new Tokens();
   client: any;
   setup: boolean = false;
-  @observable emoteCounts: EmoteCount[] = [];
+  @observable emoteCounts: number = 1.16;
 
   constructor(props) {
     super(props);
     this.setup = this.tokens.TWITCH_TOKEN != "" && this.tokens.TWITCH_USERNAME != "";
     if (this.setup) {
-      //this.setupClient();
+      this.setupClient();
     }
   }
 
@@ -51,27 +52,17 @@ class App extends Component<any, any> {
   }
 
   coolDown() {
-    // Add cooldown
+    // if (this.emoteCounts > 0)
+    //   this.emoteCounts = this.emoteCounts - 1;
   }
 
   logEvent(msg) {
     console.log(msg);
     if (msg.tags == null || msg.tags.emotes == null)
       return;
-    for (let emote of msg.tags.emotes) {
-      let emoteTag = find(this.emoteCounts, { id: emote.id })
-      if (emoteTag == null) {
-        let emoteString = msg.message.substring(emote.start, emote.end);
-        this.emoteCounts.push({
-          id: emote.id,
-          text: emoteString,
-          count: 1
-        });
-      }
-      else {
-        emoteTag.count = emoteTag.count + 1;
-      }
-    }
+    // TODO: Check for Rob specific emotes;
+    this.emoteCounts = this.emoteCounts + msg.tags.emotes.length;
+    console.log(this.emoteCounts);
   }
 
   renderMissingTokens() {
@@ -83,20 +74,14 @@ class App extends Component<any, any> {
   }
 
   renderRob() {
-    return <Circle initialPose="none" pose="attention" className="rob"></Circle>
+    let scaleCount = 1 + (this.emoteCounts * .01);
+    console.log(scaleCount);
+    return <Rob initialPose="none" pose="GoOff" i={scaleCount <= 1 ? 1 : this.emoteCounts} className="rob" />
   }
 
   render() {
     if (!this.setup)
       return this.renderMissingTokens();
-    // let avatars = this.emoteCounts
-    //   .slice()
-    //   .sort((x, y) => y.count - x.count)
-    //   .map(u =>
-    //     <div style={{height: "28px"}}>
-    //       <img className="avatar" src={`https://static-cdn.jtvnw.net/emoticons/v1/${u.id}/1.0`} />
-    //       <div className="amount">{`- ${u.count}`}</div>
-    //     </div>)
     return (
       <div className="App">
         {this.renderRob()}
