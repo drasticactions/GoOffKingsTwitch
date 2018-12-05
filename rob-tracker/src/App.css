@@ -1,0 +1,11 @@
+.avatar {
+    float: left;
+    clear: left;
+}
+
+.rob {
+    background-image: url("https://static-cdn.jtvnw.net/emoticons/v1/715264/3.0");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+}
