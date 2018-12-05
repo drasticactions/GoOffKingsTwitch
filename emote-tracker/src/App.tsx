@@ -14,6 +14,7 @@ class EmoteCount {
 
 @observer
 class App extends Component<any, any> {
+  cooldownTimer;
   tokens: Tokens = new Tokens();
   client: any;
   setup: boolean = false;
@@ -28,12 +29,17 @@ class App extends Component<any, any> {
   }
 
   async setupClient() {
+    this.cooldownTimer = setInterval(() => this.coolDown(), 500);
     const { api, chat, chatConstants } = new Twitch({ token: this.tokens.TWITCH_TOKEN, username: this.tokens.TWITCH_USERNAME })
     console.log(chatConstants);
     chat.on(chatConstants.EVENTS.PRIVATE_MESSAGE, (msg) => this.logEvent(msg));
     await chat.connect();
     // Change this to the chat room.
     await chat.join("gooffkings");
+  }
+
+  coolDown() {
+    // Add cooldown
   }
 
   logEvent(msg) {
