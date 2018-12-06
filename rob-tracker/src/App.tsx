@@ -15,13 +15,13 @@ class EmoteCount {
 
 const Rob = posed.div({
   GoOff: {
-    scale: ({i}) => i,
-    transition: {
+    scale: ({ dynScale }) => dynScale,
+    transition: ({ dynStiff }) => ({
       type: 'spring',
-      stiffness: 200,
+      stiffness: dynStiff,
       damping: 0
-    },
-    props: { i: 1 }
+    }),
+    props: { dynStiff: 200, dynScale: 1 }
   }
 })
 
@@ -31,8 +31,7 @@ class App extends Component<any, any> {
   tokens: Tokens = new Tokens();
   client: any;
   setup: boolean = false;
-  @observable emoteCounts: number = 1.16;
-
+  @observable emoteCounts: number = 0;
   constructor(props) {
     super(props);
     this.setup = this.tokens.TWITCH_TOKEN != "" && this.tokens.TWITCH_USERNAME != "";
@@ -52,8 +51,7 @@ class App extends Component<any, any> {
   }
 
   coolDown() {
-    // if (this.emoteCounts > 0)
-    //   this.emoteCounts = this.emoteCounts - 1;
+    this.emoteCounts = this.emoteCounts > 0 ? this.emoteCounts - 1 : 0;
   }
 
   logEvent(msg) {
@@ -62,7 +60,6 @@ class App extends Component<any, any> {
       return;
     // TODO: Check for Rob specific emotes;
     this.emoteCounts = this.emoteCounts + msg.tags.emotes.length;
-    console.log(this.emoteCounts);
   }
 
   renderMissingTokens() {
@@ -75,8 +72,11 @@ class App extends Component<any, any> {
 
   renderRob() {
     let scaleCount = 1 + (this.emoteCounts * .01);
+    let dynStiff = 200 * scaleCount;
     console.log(scaleCount);
-    return <Rob initialPose="none" pose="GoOff" i={scaleCount <= 1 ? 1 : this.emoteCounts} className="rob" />
+
+    return <Rob initialPose="none" pose="GoOff" poseKey={this.emoteCounts}
+      dynScale={scaleCount <= 1 ? 1 : scaleCount} dynStiff={dynStiff} className="rob" />
   }
 
   render() {
