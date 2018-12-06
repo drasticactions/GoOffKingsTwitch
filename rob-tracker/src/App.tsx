@@ -47,7 +47,7 @@ class App extends Component<any, any> {
   }
 
   coolDown() {
-    this.emoteCounts = this.emoteCounts > 0 ? this.emoteCounts - 1 : 0;
+    this.emoteCounts = this.emoteCounts < 1 ? 0 : this.emoteCounts * .9;
   }
 
   logEvent(msg) {
