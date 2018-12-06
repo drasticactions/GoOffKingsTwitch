@@ -22,6 +22,9 @@ const Rob = posed.div({
       damping: 0
     }),
     props: { dynStiff: 200, dynScale: 1 }
+  },
+  none: {
+    scale: 1
   }
 })
 
@@ -73,9 +76,9 @@ class App extends Component<any, any> {
   renderRob() {
     let scaleCount = 1 + (this.emoteCounts * .01);
     let dynStiff = 200 * scaleCount;
-    console.log(scaleCount);
+    console.log(this.emoteCounts);
 
-    return <Rob initialPose="none" pose="GoOff" poseKey={this.emoteCounts}
+    return <Rob initialPose="none" pose={this.emoteCounts > 0 ? "GoOff" : "none" } poseKey={this.emoteCounts}
       dynScale={scaleCount <= 1 ? 1 : scaleCount} dynStiff={dynStiff} className="rob" />
   }
 
