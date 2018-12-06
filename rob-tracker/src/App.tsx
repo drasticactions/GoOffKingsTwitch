@@ -4,14 +4,7 @@ import { Tokens } from './tokens';
 import Twitch from 'twitch-js';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-import { find } from 'lodash';
 import posed from 'react-pose';
-
-class EmoteCount {
-  id: number;
-  text: string;
-  @observable count: number;
-}
 
 const Rob = posed.div({
   GoOff: {
@@ -58,11 +51,16 @@ class App extends Component<any, any> {
   }
 
   logEvent(msg) {
-    console.log(msg);
     if (msg.tags == null || msg.tags.emotes == null)
       return;
-    // TODO: Check for Rob specific emotes;
-    this.emoteCounts = this.emoteCounts + msg.tags.emotes.length;
+    let emoteCount = 0;
+    for (let emote of msg.tags.emotes) {
+      let emoteString = msg.message.substring(emote.start, emote.end + 1);
+      console.log(emoteString);
+      if (emoteString == "stefan13ROB")
+        emoteCount = emoteCount + 1;
+    }
+    this.emoteCounts = this.emoteCounts + emoteCount;
   }
 
   renderMissingTokens() {
@@ -74,11 +72,12 @@ class App extends Component<any, any> {
   }
 
   renderRob() {
+    // We don't want the Rob to "Go Off" too much, so make sure the scale doesn't go that big.
     let scaleCount = 1 + (this.emoteCounts * .01);
+    if (scaleCount > 2.5)
+      scaleCount = 2.5;
     let dynStiff = 200 * scaleCount;
-    console.log(this.emoteCounts);
-
-    return <Rob initialPose="none" pose={this.emoteCounts > 0 ? "GoOff" : "none" } poseKey={this.emoteCounts}
+    return <Rob initialPose="none" pose={this.emoteCounts > 0 ? "GoOff" : "none"} poseKey={this.emoteCounts}
       dynScale={scaleCount <= 1 ? 1 : scaleCount} dynStiff={dynStiff} className="rob" />
   }
 
