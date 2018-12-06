@@ -49,7 +49,7 @@ class App extends Component<any, any> {
     for (let emote of msg.tags.emotes) {
       let emoteTag = find(this.emoteCounts, { id: emote.id })
       if (emoteTag == null) {
-        let emoteString = msg.message.substring(emote.start, emote.end);
+        let emoteString = msg.message.substring(emote.start, emote.end + 1);
         this.emoteCounts.push({
           id: emote.id,
           text: emoteString,
