@@ -1,0 +1,23 @@
+html {
+    overflow: hidden;
+}
+
+.stefan {
+    background-image: url("https://i.imgur.com/LymeJZl.png");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    position: fixed;
+    top: 25px;
+}
+
+.jf {
+    background-image: url("https://i.imgur.com/UZfR2lo.png");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    position: fixed;
+    top: 25px;
+}
