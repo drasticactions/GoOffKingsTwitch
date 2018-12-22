@@ -135,9 +135,9 @@ class App extends Component<any, any> {
     for (let emote of msg.tags.emotes) {
       let emoteString = msg.message.substring(emote.start, emote.end + 1);
       console.log(emoteString);
-      if (emoteString == "stefan13JesseWins")
+      if (emoteString == "stefan13JesseWin")
         jfEmoteCount = jfEmoteCount + 1;
-      else if (emoteString == "stefan13StefanWins")
+      else if (emoteString == "stefan13StefanWin")
         stefanEmoteCount = stefanEmoteCount + 1;
     }
     this.jfEmoteCount = this.jfEmoteCount + jfEmoteCount;
