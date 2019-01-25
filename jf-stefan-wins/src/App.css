@@ -2,21 +2,32 @@ html {
     overflow: hidden;
 }
 
-.stefan {
-    background-image: url("https://i.imgur.com/4rFQjpl.png");
+.rob {
+    background-image: url("https://i.imgur.com/eHpTQ5L.png");
     background-size: cover;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
+    margin: 0;
+    top: 25px;
+    left: 50%;  
+    position: fixed;
+}
+
+.stefan {
+    background-image: url("https://i.imgur.com/Tlx8BGG.png");
+    background-size: cover;
+    width: 150px;
+    height: 150px;
     margin: 0;
     position: fixed;
     top: 25px;
 }
 
 .jf {
-    background-image: url("https://i.imgur.com/Tlx8BGG.png");
+    background-image: url("https://i.imgur.com/4rFQjpl.png");
     background-size: cover;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     margin: 0;
     position: fixed;
     top: 25px;
